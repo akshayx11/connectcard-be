@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: connectcard
+  profiles:
+    active: dev   # default profile
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+jwt:
+  secret: "connectcard-super-secret-key-change-this"
+  expiration: 86400000   # 1 day

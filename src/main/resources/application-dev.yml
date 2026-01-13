@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://connectcard:connectcard4293@sandbox.fnxgn.mongodb.net/connectcarddb
+      auto-index-creation: true
+
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.data.mongodb: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
