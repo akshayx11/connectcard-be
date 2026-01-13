@@ -22,7 +22,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/profile/**").permitAll()
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/profile/**",
+                                "/r/**",
+                                "/api/analytics/**" // ✅ allow public redirects
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
