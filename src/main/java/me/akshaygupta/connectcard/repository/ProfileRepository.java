@@ -12,4 +12,6 @@ public interface ProfileRepository extends MongoRepository<Profile, String> {
     Optional<Profile> findByUserId(String userId);
 
     boolean existsByUsername(String username);
+
+    Optional<Profile> findBySlug(String slug);
 }

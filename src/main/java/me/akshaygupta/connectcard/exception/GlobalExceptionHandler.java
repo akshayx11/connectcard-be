@@ -22,6 +22,12 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(msg));
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ApiResponse<?>> handleForbidden(ForbiddenException ex) {
+        return ResponseEntity.status(403)
+                .body(ApiResponse.error(ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleGeneral(Exception ex) {
         return ResponseEntity.internalServerError()
