@@ -3,8 +3,11 @@ package me.akshaygupta.connectcard.service;
 import lombok.RequiredArgsConstructor;
 import me.akshaygupta.connectcard.dto.RegisterRequest;
 import me.akshaygupta.connectcard.exception.DuplicateResourceException;
+import me.akshaygupta.connectcard.model.Profile;
 import me.akshaygupta.connectcard.model.User;
+import me.akshaygupta.connectcard.repository.ProfileRepository;
 import me.akshaygupta.connectcard.repository.UserRepository;
+import me.akshaygupta.connectcard.util.SlugUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.time.Instant;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
 
     public User register(RegisterRequest request) {
@@ -30,13 +34,33 @@ public class UserService {
 
         String hashedPassword = passwordEncoder.encode(request.getPassword());
 
-        User user = User.builder()
-                .email(request.getEmail())
-                .username(request.getUsername())
-                .password(hashedPassword)
-                .build();
+        User user = userRepository.save(
+                User.builder()
+                        .email(request.getEmail())
+                        .username(request.getUsername())
+                        .password(hashedPassword)
+                        .build()
+        );
+        // 🔗 Create Profile automatically
+        String baseSlug = SlugUtil.toSlug(request.getUsername());
+        // Slug is not username — slug is permanent.
+        String slug = baseSlug;
+        int i = 1;
 
-        return userRepository.save(user);
+        while (profileRepository.existsByUsername(slug)) {
+            slug = baseSlug + i++;
+        }
+
+        profileRepository.save(
+                Profile.builder()
+                        .userId(user.getId())
+                        .username(user.getUsername())
+                        .slug(slug)
+                        .displayName(user.getUsername())
+                        .build()
+        );
+
+        return user;
     }
 
     public User login(String usernameOrEmail, String password) {

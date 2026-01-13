@@ -2,8 +2,10 @@ package me.akshaygupta.connectcard;
 
 import me.akshaygupta.connectcard.dto.RegisterRequest;
 import me.akshaygupta.connectcard.model.MongoTest;
+import me.akshaygupta.connectcard.model.Profile;
 import me.akshaygupta.connectcard.model.User;
 import me.akshaygupta.connectcard.repository.MongoTestRepository;
+import me.akshaygupta.connectcard.repository.ProfileRepository;
 import me.akshaygupta.connectcard.repository.UserRepository;
 import me.akshaygupta.connectcard.service.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +20,12 @@ public class ConnectcardApplication {
 		SpringApplication.run(ConnectcardApplication.class, args);
 	}
 	@Bean
-	CommandLineRunner testInsert(MongoTestRepository repo, UserRepository userRepo, UserService userService) {
+	CommandLineRunner testInsert(
+			MongoTestRepository repo,
+			UserRepository userRepo,
+			ProfileRepository profileRepo,
+			UserService userService
+	) {
 		return args -> {
 			MongoTest test  = MongoTest.builder().name("Hello Test mongo").build();
 			repo.save(test);
@@ -34,6 +41,13 @@ public class ConnectcardApplication {
 //					.build());
 //
 //			System.out.println(userRepo.findByUsername("akshay").isPresent());
+
+//			// add profile
+//			profileRepo.save(Profile.builder()
+//					.userId("123")
+//					.username("akshay")
+//					.displayName("Akshay Gupta")
+//					.build());
 		};
 	}
 }
