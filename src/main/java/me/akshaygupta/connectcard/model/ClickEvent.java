@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -26,4 +28,7 @@ public class ClickEvent extends BaseEntity {
     private String userAgent;
 
     private String referrer;
+
+    @Indexed
+    private Instant createdAt;
 }
