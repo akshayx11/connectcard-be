@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.akshaygupta.connectcard.enums.AccountStatus;
+import me.akshaygupta.connectcard.enums.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -40,6 +41,9 @@ public class User extends BaseEntity {
     private AccountStatus status = AccountStatus.ACTIVE;
 
     private Instant lastLogin;
+
+    @Builder.Default
+    private Role role = Role.USER;
 
     // Normalize data before saving
     public void setEmail(String email) {

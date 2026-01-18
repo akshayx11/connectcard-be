@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import me.akshaygupta.connectcard.enums.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +28,10 @@ public class JwtService {
         this.expiration = expiration;
     }
 
-    public String generateToken(String userId) {
+    public String generateToken(String userId, Role role) {
         return Jwts.builder()
                 .subject(userId)
+                .claim("role", role.name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)

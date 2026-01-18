@@ -36,7 +36,7 @@ public class AuthController {
                 request.getPassword()
         );
 
-        String token = jwtService.generateToken(user.getId());
+        String token = jwtService.generateToken(user.getId(), user.getRole());
 
         return ResponseEntity.ok(
                 ApiResponse.success("Login successful", token)
